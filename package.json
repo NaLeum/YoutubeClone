@@ -1,0 +1,14 @@
+{
+  "name": "youtubeclone2",
+  "version": "1.0.0",
+  "description": "Clonimg Youtube Vanilla and NodeJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NaLeum",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
