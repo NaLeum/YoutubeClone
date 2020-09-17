@@ -1,0 +1,6 @@
+// 바벨을 설정하는 곳
+// 바벨 넌 이런 preset을 가질거야
+
+{
+    "presets" : ["@babel/preset-env"]
+}
