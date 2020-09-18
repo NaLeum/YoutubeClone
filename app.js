@@ -7,22 +7,20 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import userRouter from './routers/userRouter';
+import videoRouter from './routers/videoRouter';
+import globalRouter from './routers/globalRouter';
+import routes from './routes';
+
 const app = express();
 
-const PORT = 4000;
+// const handleHome = (req,res) => {
+//     res.send('hello world'); // 웹사이트가 브라우저에 요청에 대한 답을 해준다. 보통은 html과 css로 답을 한다. 혹은 데이타베이스..
+// }
 
-// 원래는 바벨을 통해 arrow function을 사용했지만, nodejs의 버전업으로 그냥도 읽힌다.
-const handleListening = () => {
-    console.log(`Listening on: http://localhost:${PORT}`);
-} // listen의 콜백함수
-
-const handleHome = (req,res) => {
-    res.send('hello world'); // 웹사이트가 브라우저에 요청에 대한 답을 해준다. 보통은 html과 css로 답을 한다. 혹은 데이타베이스..
-}
-
-const handleProfile = (req,res) => {
-    res.send('hello profile')
-}
+// const handleProfile = (req,res) => {
+//     res.send('hello profile')
+// }
 // express 에서 middleware는 연결이 끝날때 까지 기다리는것
 // request의 시작은 브라우저에서! 
 // 그럼 index파일이 실행되고 route가 존재하는지 찾아본다. home을 찾아 handleHome을 호출하고 handlehome은 응답을 한다. 
@@ -40,12 +38,15 @@ const handleProfile = (req,res) => {
 
 app.use(cookieParser()); // cookie에 유저정보를 저장할 것인데 그것을 가능하게 해준다.
 app.use(bodyParser.urlencoded({ extended: true })); // body로부터 정보를 얻을 수 있게 해준다
-app.use(bodyParser.json({ extended: true })); // urlencode와 json으로 부터 정보를 받을 수 있도록 설정한다.
+app.use(bodyParser.json()); // urlencode와 json으로 부터 정보를 받을 수 있도록 설정한다.
 app.use(helmet()); // helmet은 우리 어플리케이션의 보안을 높여준다
 app.use(morgan("dev"));// morgan은 로그를 찍는 middleware
 
-app.get('/', handleHome); 
-app.get('/profile',handleProfile)
+// app.get('/', handleHome); 
+// app.get('/profile',handleProfile)
 
+app.use(routes.home,globalRouter);
+app.use(routes.users, userRouter); // 누가 user로 접속하면 userRouter로 보내겠다.
+app.use(routes.videos, videoRouter);
 
-app.listen(PORT, handleListening); // PORT에 설정된 포트를 listen해라, 그리고 listening을 시작할 떄 handleListing함수를 호출해라
+export default app; // app을 모듈화 해서 다른 파일에서도 사용 할 수 있게 한다.
