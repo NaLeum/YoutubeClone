@@ -5,11 +5,11 @@ import { join, login, logout } from '../controllers/userController';
 
 const globalRouter = express.Router();
 
-globalRouter.get(routes.home, (req,res) => home);
-globalRouter.get(routes.join, (req,res) => join);
-globalRouter.get(routes.login, (req,res) => login);
-globalRouter.get(routes.logout, (req,res) => logout);
-globalRouter.get(routes.search, (req,res) => search);
+globalRouter.get(routes.home, home);
+globalRouter.get(routes.search, search);
+globalRouter.get(routes.join, join);
+globalRouter.get(routes.login, login);
+globalRouter.get(routes.logout, logout);
 
 
 export default globalRouter;

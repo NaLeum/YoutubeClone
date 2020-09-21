@@ -11,6 +11,7 @@ import userRouter from './routers/userRouter';
 import videoRouter from './routers/videoRouter';
 import globalRouter from './routers/globalRouter';
 import routes from './routes';
+import { localsMiddleware } from "./middlewares";
 
 const app = express();
 
@@ -35,16 +36,20 @@ const app = express();
 // app.use(betweenHome);
 // app.get('/', betweenHome ,handleHome); // 특정 route에 middleware를 적용하겠다.
 
+app.use(helmet()); // helmet은 우리 어플리케이션의 보안을 높여준다
+app.set("view engine", "pug"); 
+// view engine으로 pug를 사용하겠다. // pug와 express에는 view파일의 기본 설정이 있는데 디렉토리는 /views이다.
 
 app.use(cookieParser()); // cookie에 유저정보를 저장할 것인데 그것을 가능하게 해준다.
 app.use(bodyParser.urlencoded({ extended: true })); // body로부터 정보를 얻을 수 있게 해준다
 app.use(bodyParser.json()); // urlencode와 json으로 부터 정보를 받을 수 있도록 설정한다.
-app.use(helmet()); // helmet은 우리 어플리케이션의 보안을 높여준다
 app.use(morgan("dev"));// morgan은 로그를 찍는 middleware
+
+
+app.use(localsMiddleware) //라우터들에서 local에 접근해야하기 떄문에 위에 둔다
 
 // app.get('/', handleHome); 
 // app.get('/profile',handleProfile)
-
 app.use(routes.home,globalRouter);
 app.use(routes.users, userRouter); // 누가 user로 접속하면 userRouter로 보내겠다.
 app.use(routes.videos, videoRouter);
