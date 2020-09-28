@@ -1,7 +1,12 @@
+import "./db";
 import app from './app';
+import dotenv from 'dotenv';
+dotenv.config();
+import "./models/Video";
+import "./models/Comment";
 
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // 원래는 바벨을 통해 arrow function을 사용했지만, nodejs의 버전업으로 그냥도 읽힌다.
 const handleListening = () => {
