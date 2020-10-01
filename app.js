@@ -40,6 +40,10 @@ app.use(helmet()); // helmet은 우리 어플리케이션의 보안을 높여준
 app.set("view engine", "pug"); 
 // view engine으로 pug를 사용하겠다. // pug와 express에는 view파일의 기본 설정이 있는데 디렉토리는 /views이다.
 
+
+// express.static : directory에서 file을 보내주는 미들웨어
+app.use('/uploads',express.static("uploads"))
+
 app.use(cookieParser()); // cookie에 유저정보를 저장할 것인데 그것을 가능하게 해준다.
 app.use(bodyParser.urlencoded({ extended: true })); // body로부터 정보를 얻을 수 있게 해준다
 app.use(bodyParser.json()); // urlencode와 json으로 부터 정보를 받을 수 있도록 설정한다.
