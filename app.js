@@ -42,7 +42,9 @@ app.set("view engine", "pug");
 
 
 // express.static : directory에서 file을 보내주는 미들웨어
-app.use('/uploads',express.static("uploads"))
+app.use('/uploads',express.static("uploads"));
+app.use('/static',express.static("static"));
+
 
 app.use(cookieParser()); // cookie에 유저정보를 저장할 것인데 그것을 가능하게 해준다.
 app.use(bodyParser.urlencoded({ extended: true })); // body로부터 정보를 얻을 수 있게 해준다
