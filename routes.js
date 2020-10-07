@@ -27,7 +27,7 @@ const routes = {
     users: USERS,
     userDetail: id => {
       if(id){
-        return `users/${id}`;
+        return `/users/${id}`;
       }else{
         return USER_DETAIL;
       }

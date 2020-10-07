@@ -7,13 +7,21 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+import mongoose from 'mongoose';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import userRouter from './routers/userRouter';
 import videoRouter from './routers/videoRouter';
 import globalRouter from './routers/globalRouter';
 import routes from './routes';
 import { localsMiddleware } from "./middlewares";
 
+import './passport';
+
 const app = express();
+
+const CokieStore = MongoStore(session);
 
 // const handleHome = (req,res) => {
 //     res.send('hello world'); // 웹사이트가 브라우저에 요청에 대한 답을 해준다. 보통은 html과 css로 답을 한다. 혹은 데이타베이스..
@@ -50,6 +58,16 @@ app.use(cookieParser()); // cookie에 유저정보를 저장할 것인데 그것
 app.use(bodyParser.urlencoded({ extended: true })); // body로부터 정보를 얻을 수 있게 해준다
 app.use(bodyParser.json()); // urlencode와 json으로 부터 정보를 받을 수 있도록 설정한다.
 app.use(morgan("dev"));// morgan은 로그를 찍는 middleware
+app.use(session({
+    secret: process.env.COOKIE_SECRET, // randomkeygen
+    resave: true,
+    saveUninitialized: false,
+    store: new CokieStore({
+        mongooseConnection: mongoose.connection
+    })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use(localsMiddleware) //라우터들에서 local에 접근해야하기 떄문에 위에 둔다
